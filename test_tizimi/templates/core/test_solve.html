@@ -1,0 +1,49 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block title %}Test sheshiw - {{ test.nom }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">{{ test.nom }} Testi</h1>
+        </div>
+        <div class="card-body">
+            <p class="lead text-muted">Jámi sorawlar: <span class="fw-bold">{{ savollar.count }}</span></p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {% for savol in savollar %}
+                <div class="mb-4 p-3 border rounded">
+                    <h5 class="fw-bold text-dark">{{ forloop.counter }}. Soraw:</h5>
+                    <p class="mb-3">{{ savol.matn | safe }}</p>
+
+                    <div class="variants">
+                        {% for variant in savol.variantlar.all %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   name="savol_{{ savol.id }}"
+                                   id="variant_{{ variant.id }}"
+                                   value="{{ variant.id }}"
+                                   required>
+                            <label class="form-check-label" for="variant_{{ variant.id }}">
+                                {{ variant.matn | safe }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <hr>
+                <button type="submit" class="btn btn-success btn-lg w-100 mt-4">
+                    Testti tamamlaw hám nátiyjeni kóriw
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

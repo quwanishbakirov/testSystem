@@ -1,0 +1,87 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Oqıwshı basqarıw panalı{% endblock %}
+
+{% block content %}
+{% load static %}
+<div id="carouselExampleIndicators" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../../static/img/mektep.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="../../static/img/mektep.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="../../static/img/mektep.jpg" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Oqıwshı basqarıw panalı</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <span class="badge bg-success p-2 fs-5 me-3">Jámi ballıńız: {{ student_profile.total_points }}</span>
+        <span class="badge bg-primary p-2 fs-5">Klassıńız: {{ sinf_nomi }}</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Sheshilgen Testler</h5>
+                <p class="card-text display-4 text-primary">{{ solved_tests_count }} / {{ all_tests_count }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card shadow-lg">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">{{ sinf_nomi }} klasınıń reytingi </h5>
+            </div>
+            <div class="card-body p-0">
+                {% if rating_list %}
+                <table class="table table-striped table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Oqıwshı</th>
+                            <th>Ball</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for profile in rating_list %}
+                        <tr {% if profile.user.id == request.user.id %}class="table-success fw-bold"{% endif %}>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ profile.user.get_full_name|default:profile.user.username }} 
+                                {% if profile.user.id == request.user.id %}(Siz){% endif %}
+                            </td>
+                            <td>{{ profile.total_points }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="p-3 text-center">Klasıńızǵa tiyisli oqıwshılar tabılmadı yaki klasıńız belgilenbegen.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Test Nátijesii (Review){% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">✨ {{ test.nom }} Nátijesi</h1>
+    <span class="badge bg-primary p-3 fs-4">Toplanǵan Ball: {{ test_result.jami_ball }}</span>
+</div>
+
+<div class="alert alert-info">
+    <p>Ulıwma durıs juwaplar: <strong>{{ test_result.togri_javoblar_soni }} / {{ test_result.umumiy_savollar_soni }}</strong></p>
+    <p>Sınaq Sánesi: {{ test_result.sinov_sanasi|date:"Y-m-d H:i" }}</p>
+</div>
+
+{% for item in savollar_data %}
+<div class="card mb-4 shadow-sm">
+    <div class="card-header {% if item.is_correct %}bg-success text-white{% else %}bg-danger text-white{% endif %}">
+        Soraw #{{ forloop.counter }} | Ball: {{ item.savol.ball }}
+        <span class="float-end">
+            {% if item.is_correct %}✅ Durıs juwap{% else %}❌ Qáte juwap{% endif %}
+        </span>
+    </div>
+    <div class="card-body">
+        <p class="card-text fs-5">
+            {{ item.savol.matn|safe }}
+        </p>
+        <hr>
+
+        <h6>Juwaplar analizi (Barlıq variantlar):</h6>
+
+        <ul class="list-group">
+            {% for variant in item.variantlar %}
+
+                <li class="list-group-item {{ variant.list_class }}">
+                    {{ variant.matn|safe }}
+
+                    {% if variant.is_selected %}
+                        <span class="badge bg-primary float-end">Siziń juwabıńız</span>
+                    {% elif variant.is_correct %}
+                        <span class="badge bg-info float-end">Durıs juwap</span>
+                    {% endif %}
+                </li>
+
+            {% endfor %}
+
+            <li class="list-group-item mt-2 list-group-item-light">
+                <strong>Siziń Tańlawıńız:</strong>
+                {% if item.user_answer %}
+                    <span class="{% if item.is_correct %}text-success{% else %}text-danger{% endif %} fw-bold">
+                        {{ item.user_answer.matn|safe }}
+                    </span>
+                {% else %}
+                    <span class="text-warning fw-bold">(Juwap berilmegen)</span>
+                {% endif %}
+            </li>
+
+        </ul>
+        
+    </div>
+</div>
+{% endfor %}
+
+<div class="text-center my-5">
+    <a href="{% url 'student_test_list' %}" class="btn btn-secondary btn-lg">Testler dizimine qaytıw</a>
+</div>
+{% endblock %}
