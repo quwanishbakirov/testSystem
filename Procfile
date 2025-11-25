@@ -1,0 +1,1 @@
+web: gunicorn test_tizimi.wsgi:application --log-file -
