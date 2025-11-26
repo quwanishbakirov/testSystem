@@ -12,3 +12,13 @@ class LoginForm(AuthenticationForm):
         label="Parol",
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Parol'})
     )
+
+class QuestionImportForm(forms.Form):
+    """
+    Test savollarini matn formatida import qilish uchun ishlatiladigan forma.
+    """
+    # Testga tegishli savollarni joylashtirish uchun katta matn maydoni
+    import_data = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 20, 'cols': 120, 'placeholder': 'Savollarni matn formatida shu yerga nusxalash va joylashtirish.\nHar bir savol # raqami bilan, ball #ball: bilan va to\'g\'ri javob + belgisidan boshlanishi kerak (Masalan, +A) 8)'}),
+        label="Savol va Variantlar Matni"
+    )

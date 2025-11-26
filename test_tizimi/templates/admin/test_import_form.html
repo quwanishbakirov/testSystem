@@ -1,0 +1,93 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <!-- Import Form uchun zarur bo'lsa qo'shimcha CSS/JS qo'shish mumkin -->
+    <style>
+        .submit-row {
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+            margin-top: 15px;
+            text-align: right;
+        }
+        .submit-row .button {
+            margin-left: 10px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            white-space: pre-wrap; /* Uzun qatorlarni o'rash */
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .module h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='core' %}">Core</a>
+    &rsaquo; <a href="{% url 'admin:core_test_changelist' %}">Testlar</a>
+    &rsaquo; {{ title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <div class="module">
+        <h2>{{ title }}</h2>
+
+        <p class="help">
+            Iltimos, Word yoki matn faylidan nusxalangan savollarni pastdagi maydonga joylashtiring.
+            Formatni to'g'ri saqlash muhim.
+        </p>
+
+        <div class="form-row">
+            <h3>Talab qilinadigan format namunasi:</h3>
+            <pre>
+#1. Savol matni shu yerda bo'lishi kerak.
+Bu TinyMCEga formatlanmagan holda tushadi, keyin tahrirlashingiz mumkin.
+#ball: 3.5
++A) Bu to'g'ri javob varianti (Plyus belgisi '+').
+B) Bu noto'g'ri javob varianti.
+C) Keyingi variant.
+D) Oxirgi variant.
+#2. Ikkinchi savol matni.
+...
+#ball: 2
++A) To'g'ri javob.
+B) Noto'g'ri javob.
+            </pre>
+            <p class="errornote">Savollar orasidagi bo'sh qatorlar ahamiyatli emas, lekin har bir yangi savol <strong><code>#raqam.</code></strong> bilan boshlanishi, ball esa <strong><code>#ball: son</code></strong> formatida bo'lishi shart.</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <fieldset class="module aligned">
+                <div class="form-row field-import_data">
+                    <label class="required" for="id_import_data">{{ form.import_data.label }}:</label>
+                    <div class="vLargeTextField">
+                        {{ form.import_data.errors }}
+                        {{ form.import_data }}
+                        <p class="help">{{ form.import_data.help_text }}</p>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="submit-row">
+                <input type="submit" value="Savollarni Import Qilish" class="default" name="_save">
+                <a href="{% url 'admin:core_test_changelist' %}" class="button">Bekor qilish</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
