@@ -29,6 +29,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'al-xorezmiy.uz',
     'www.al-xorezmiy.uz',
+    'https://testsystem-9u17.onrender.com',
 ]
 
 
