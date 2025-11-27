@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -98,12 +99,32 @@ WSGI_APPLICATION = 'test_tizimi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# RENDER_EXTERNAL_HOSTNAME Render tomonidan avtomatik o'rnatiladi.
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+
+# =========================================================================
+# MA'LUMOTLAR BAZASI SOZLAMALARI (PostgreSQL/SQLite)
+# =========================================================================
+
+# Render muhitida ekanligimizni tekshiramiz (PRODUCTION)
+if RENDER_EXTERNAL_HOSTNAME:
+    # Production (Render) uchun: PostgreSQL
+    print("--- INFO: PostgreSQLga ulanish o'rnatilmoqda (PRODUCTION) ---")
+    DATABASES = {
+        'default': dj_database_url.config(
+            default='postgres://user:password@host:port/dbname',
+            conn_max_age=600
+        )
     }
-}
+else:
+    # Development (Lokal kompyuter) uchun: SQLite3
+    print("--- INFO: Lokal SQLite3 bazasiga ulanish o'rnatilmoqda (DEVELOPMENT) ---")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
