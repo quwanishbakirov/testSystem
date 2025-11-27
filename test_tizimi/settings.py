@@ -29,6 +29,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'al-xorezmiy.uz',
     'www.al-xorezmiy.uz',
+    'https://testsystem-9u17.onrender.com',
 ]
 
 
@@ -72,6 +73,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'test_tizimi.urls'
 STATIC_URL = 'static/'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -136,7 +139,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
